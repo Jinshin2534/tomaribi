@@ -191,7 +191,8 @@ async function loadOverpass() {
   btn.disabled = true;
   btn.textContent = '探しています…';
   try {
-    const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: buildQuery() });
+    // 直叩きは本番オリジンから遮断されるので、必ず同一オリジンの /api/overpass を通す
+    const res = await fetch('/api/overpass', { method: 'POST', body: buildQuery() });
     if (!res.ok) throw new Error(String(res.status));
     const json = await res.json();
     state.osm = mergeWithKnown(normalizeElements(json.elements), CAMPSITES);
