@@ -11,6 +11,7 @@ const base = {
   car: { available: true, distance_km: 60, minutes: 90, parking_fee: 1000 },
   transit: { from: '新宿', minutes: 105, legs: ['a'], last_arrival: '17:00' },
   season: null,
+  reservation: { required: false, url: null },
 };
 const site = (over) => ({ ...base, ...over });
 
@@ -47,6 +48,11 @@ describe('compareRows', () => {
       site({ id: 'b', facilities: { toilet: true, shower: true, rental: true, shop: true, power: true } }),
     );
     expect(rows.find((r) => r.label === '設備').winner).toBe('b');
+  });
+
+  it('予約不要のほうが勝つ（思い立って行ける）', () => {
+    const rows = compareRows(site(), site({ id: 'b', reservation: { required: true, url: 'https://x' } }));
+    expect(rows.find((r) => r.label === '予約').winner).toBe('a');
   });
 
   it('通年営業のほうが営業期間で勝つ', () => {

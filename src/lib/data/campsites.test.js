@@ -138,4 +138,33 @@ describe('キャンプ場データ', () => {
       expect(s.note.length, s.name).toBeGreaterThan(0);
     }
   });
+
+  it('25件以上ある', () => {
+    expect(CAMPSITES.length).toBeGreaterThanOrEqual(25);
+  });
+
+  it('全エリアに1件以上ある（片寄ったデータで提案が偏らないように）', () => {
+    for (const area of AREAS) {
+      expect(CAMPSITES.filter((s) => s.area === area).length, area).toBeGreaterThan(0);
+    }
+  });
+
+  it('公共交通で行ける場所が10件以上ある（車なしの需要に応えられる）', () => {
+    expect(CAMPSITES.filter((s) => s.transit !== null).length).toBeGreaterThanOrEqual(10);
+  });
+
+  it('一次情報で裏取りした場所が10件以上ある', () => {
+    expect(CAMPSITES.filter((s) => s.verified).length).toBeGreaterThanOrEqual(10);
+  });
+
+  it('焚き火ができる場所とできない場所が両方ある', () => {
+    expect(CAMPSITES.some((s) => s.fire.stand)).toBe(true);
+    expect(CAMPSITES.some((s) => !s.fire.stand)).toBe(true);
+  });
+
+  it('料金に幅がある（無料も高額もある）', () => {
+    const mins = CAMPSITES.map((s) => s.price.min);
+    expect(Math.min(...mins)).toBe(0);
+    expect(Math.max(...mins)).toBeGreaterThan(5000);
+  });
 });

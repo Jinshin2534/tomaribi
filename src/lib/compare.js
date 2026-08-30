@@ -4,7 +4,7 @@
 import { formatPrice, formatMinutes, formatDistance, formatSeason, formatYen } from './format.js';
 import { minPricePerPerson } from './filter.js';
 
-export const COMPARE_LABELS = ['料金', '電車・バス', '車', '駐車料金', '焚き火', '設備', '標高', '営業期間', 'ペット', 'ソロ'];
+export const COMPARE_LABELS = ['料金', '予約', '電車・バス', '車', '駐車料金', '焚き火', '設備', '標高', '営業期間', 'ペット', 'ソロ'];
 
 const cmp = (av, bv, higherWins = true) => {
   if (av === bv) return null;
@@ -37,6 +37,7 @@ export function compareRows(a, b) {
 
   return [
     { label: '料金', a: formatPrice(a.price), b: formatPrice(b.price), winner: cmp(minPricePerPerson(a, 1), minPricePerPerson(b, 1), false) },
+    { label: '予約', a: a.reservation.required ? '必須' : '不要', b: b.reservation.required ? '必須' : '不要', winner: cmp(a.reservation.required ? 0 : 1, b.reservation.required ? 0 : 1) },
     { label: '電車・バス', a: transitText(a), b: transitText(b), winner: cmp(transitMin(a), transitMin(b), false) },
     { label: '車', a: carText(a), b: carText(b), winner: cmp(carMin(a), carMin(b), false) },
     { label: '駐車料金', a: a.car.available ? formatYen(a.car.parking_fee) : '—', b: b.car.available ? formatYen(b.car.parking_fee) : '—', winner: cmp(a.car.parking_fee, b.car.parking_fee, false) },
