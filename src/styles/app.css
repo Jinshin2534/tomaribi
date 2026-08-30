@@ -245,3 +245,26 @@ body {
 
 .toolbar { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin: 0 0 12px; }
 .toolbar .note { color: var(--ink-dim); font-size: 12px; }
+
+/* ---- いま休んでいる場所 ---- */
+
+.closed-list {
+  margin: 26px 0 0;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  color: var(--ink-dim);
+}
+.closed-list h4 { margin: 0 0 4px; font-size: 12px; letter-spacing: .1em; font-weight: 600; }
+.closed-list > p { margin: 0 0 10px; font-size: 12px; }
+.closed-list ul { margin: 0; padding: 0; list-style: none; }
+.closed-list li {
+  display: grid;
+  grid-template-columns: minmax(9em, auto) 1fr;
+  gap: 2px 12px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+}
+.closed-list li b { color: var(--ink); font-weight: 600; }
+.closed-list li span { color: var(--ink-dim); }
+.closed-list li em { grid-column: 1 / -1; font-style: normal; color: var(--warn); font-size: 11.5px; }

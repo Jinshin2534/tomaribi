@@ -86,6 +86,8 @@ const favBtn = document.getElementById('only-fav');
 let onlyFav = false;
 let compareOpen = false;
 
+const CLOSED_SITES = CAMPSITES.filter((s) => s.closed);
+
 const headcountFor = (party) => ({ solo: 1, couple: 2, family: 4, group: 6 }[party] ?? 2);
 const fullCriteria = () => ({ ...state.criteria, headcount: headcountFor(state.criteria.party) });
 const siteById = (id) => CAMPSITES.find((s) => s.id === id) ?? null;
@@ -100,7 +102,7 @@ function recompute() {
 
 function render() {
   renderControls(controlsRoot, state.criteria, setCriteria);
-  renderList(listRoot, state.ranked, state.criteria, CAMPSITES.length);
+  renderList(listRoot, state.ranked, state.criteria, CAMPSITES.length, CLOSED_SITES);
   paintMap(state.ranked, state.osm, openDetail);
   compareBtn.disabled = state.compare.length !== 2;
   favBtn.setAttribute('aria-pressed', String(onlyFav));

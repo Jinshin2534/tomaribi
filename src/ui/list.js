@@ -46,17 +46,37 @@ function card(entry, criteria) {
     </article>`;
 }
 
-export function renderList(root, ranked, criteria, total) {
+/**
+ * 休んでいる場所。提案には出さないが、存在ごと隠すと
+ * 「地図に載っているのに行けない」を利用者が自力で踏むことになる。
+ */
+function closedSection(closedSites) {
+  if (!closedSites || closedSites.length === 0) return '';
+  const rows = closedSites
+    .map((s) => `<li><b>${s.name}</b><span>${s.area}・${s.city}</span><em>${s.closed}</em></li>`)
+    .join('');
+  return `
+    <section class="closed-list">
+      <h4>いま休んでいる場所（${closedSites.length}）</h4>
+      <p>地図サービスには残っていますが、現在は泊まれません。</p>
+      <ul>${rows}</ul>
+    </section>`;
+}
+
+export function renderList(root, ranked, criteria, total, closedSites) {
+  const tail = closedSection(closedSites);
+
   if (ranked.length === 0) {
     root.innerHTML = `
       <div class="empty">
         <b>この条件で泊まれる場所は見つかりませんでした</b>
         条件をひとつ緩めてみてください。<br />
         よくあるのは「直火」「犬を連れる」「1月・2月」「予算の上限」です。
-      </div>`;
+      </div>${tail}`;
     return;
   }
   root.innerHTML =
     `<p class="summary">収録 ${total} か所のうち <b>${ranked.length} か所</b>が条件に合いました</p>` +
-    ranked.map((e) => card(e, criteria)).join('');
+    ranked.map((e) => card(e, criteria)).join('') +
+    tail;
 }

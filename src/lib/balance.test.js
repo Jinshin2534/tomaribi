@@ -171,6 +171,7 @@ describe('総当たり — 摂動耐性', () => {
     const pool = (c) => new Set(filterSites(CAMPSITES, c).map((s) => s.id));
     const ids = (c) => rankSites(filterSites(CAMPSITES, c), c).slice(0, 3).map((r) => r.site.id);
     let checked = 0;
+    let forcedByConstraint = 0;
     for (const c of ALL) {
       for (const nudged of [
         { ...c, month: (c.month % 12) + 1 },
@@ -186,12 +187,20 @@ describe('総当たり — 摂動耐性', () => {
         const churn = 1 - kept / Math.max(pa.size, pb.size);
         if (churn > 0.3) continue; // 候補集合が3割以上入れ替わった＝別の条件
 
+        // 元の上位3件が「ずらした条件では失格」なら、総入れ替えは重みのせいではなく
+        // ハード制約のせい（例：2人向けの上位がどれもソロ不可）。ここで見たいのは
+        // 重みが過敏かどうかなので、その場合は測らない。
+        const survivors = a.filter((id) => pb.has(id));
+        if (survivors.length === 0) { forcedByConstraint++; continue; }
+
         checked++;
         const overlap = a.filter((x) => b.includes(x)).length;
         expect(overlap, `${JSON.stringify(c)} → ${JSON.stringify(nudged)}`).toBeGreaterThan(0);
       }
     }
     expect(checked, '摂動を1件も検証していない').toBeGreaterThan(50);
+    // 制約で押し出された分が全体を食い潰していないことも見ておく
+    expect(forcedByConstraint).toBeLessThan(checked);
   });
 
   it('車の有無を変えると、上位の顔ぶれは実際に変わる（条件が効いている）', () => {
