@@ -27,11 +27,15 @@ describe('nightVerdict', () => {
     expect(nightVerdict(day({ precipProb: 70 }))).toBe('no');
   });
 
-  it('風速の境界：6.9は good、7は tough、9.9は tough、10は no', () => {
-    expect(nightVerdict(day({ windMax: 6.9 }))).toBe('good');
-    expect(nightVerdict(day({ windMax: 7 }))).toBe('tough');
-    expect(nightVerdict(day({ windMax: 9.9 }))).toBe('tough');
-    expect(nightVerdict(day({ windMax: 10 }))).toBe('no');
+  it('風速の境界：9.9は good、10は tough、14.9は tough、15は no', () => {
+    expect(nightVerdict(day({ windMax: 9.9 }))).toBe('good');
+    expect(nightVerdict(day({ windMax: 10 }))).toBe('tough');
+    expect(nightVerdict(day({ windMax: 14.9 }))).toBe('tough');
+    expect(nightVerdict(day({ windMax: 15 }))).toBe('no');
+  });
+
+  it('回帰：湾岸でよく出る 9m/s 前後の風だけでは「厳しい」にしない', () => {
+    expect(nightVerdict(day({ minTemp: 21, precipProb: 21, windMax: 9.4 }))).toBe('good');
   });
 
   it('条件が重なったら厳しい側が勝つ', () => {

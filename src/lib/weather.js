@@ -1,4 +1,9 @@
 // 週間予報から「その夜、泊まれるか」を判定する。
+//
+// 風速は Open-Meteo の wind_speed_10m_max（地上10mの日最大）。
+// 当初 7m/s を「厳しい」にしていたが、実データで湾岸のキャンプ場が
+// 常時「厳しい」になり判定が意味を失ったため、テント設営が実際に
+// つらくなる 10m/s、危険側の 15m/s に引き上げた。
 // fetch はここに書かない（純粋関数のまま素の node から呼べるようにする）。
 
 export const VERDICT_LABEL = {
@@ -28,8 +33,8 @@ export function nightVerdict(day) {
   if (precipProb >= 70) v = worse(v, 'no');
   else if (precipProb >= 40) v = worse(v, 'tough');
 
-  if (windMax >= 10) v = worse(v, 'no');
-  else if (windMax >= 7) v = worse(v, 'tough');
+  if (windMax >= 15) v = worse(v, 'no');
+  else if (windMax >= 10) v = worse(v, 'tough');
 
   return v;
 }
