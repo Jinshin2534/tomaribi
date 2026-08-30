@@ -5,7 +5,7 @@ import { filterSites, disqualify } from './lib/filter.js';
 import { rankSites } from './lib/score.js';
 import { summarizeWeek } from './lib/weather.js';
 import { toggle as toggleFav, load as loadFav, save as saveFav } from './lib/favorites.js';
-import { normalizeElements, mergeWithKnown, buildQuery } from './lib/overpass.js';
+import { normalizeElements, mergeWithKnown } from './lib/overpass.js';
 import { renderControls } from './ui/controls.js';
 import { renderList } from './ui/list.js';
 import { renderDetail } from './ui/detail.js';
@@ -193,8 +193,9 @@ async function loadOverpass() {
   btn.disabled = true;
   btn.textContent = '探しています…';
   try {
-    // 直叩きは本番オリジンから遮断されるので、必ず同一オリジンの /api/overpass を通す
-    const res = await fetch('/api/overpass', { method: 'POST', body: buildQuery() });
+    // 直叩きは本番オリジンから遮断されるので、必ず同一オリジンの /api/overpass を通す。
+    // クエリはサーバ側が組み立てるので、ここは GET だけでよい。
+    const res = await fetch('/api/overpass');
     if (!res.ok) throw new Error(String(res.status));
     const json = await res.json();
     state.osm = mergeWithKnown(normalizeElements(json.elements), CAMPSITES);
