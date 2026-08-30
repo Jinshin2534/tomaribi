@@ -10,6 +10,8 @@
 //
 // 項目を足すときは、このファイルに1オブジェクト足すだけでよい。
 
+export const SCENERIES = ['海', '渓流', '湖', '林'];
+
 export const AREAS = [
   '奥多摩',
   '檜原',
@@ -23,6 +25,7 @@ export const AREAS = [
 export const CAMPSITES = [
   {
     id: 'hikawa',
+    scenery: '渓流',
     name: '氷川キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町',
@@ -47,6 +50,7 @@ export const CAMPSITES = [
   },
   {
     id: 'kawai',
+    scenery: '渓流',
     name: '川井キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町川井',
@@ -71,6 +75,7 @@ export const CAMPSITES = [
   },
   {
     id: 'wakasu',
+    scenery: '海',
     name: '江東区立若洲公園キャンプ場',
     area: '湾岸',
     city: '江東区若洲',
@@ -95,6 +100,7 @@ export const CAMPSITES = [
   },
   {
     id: 'jonanjima',
+    scenery: '海',
     name: '城南島海浜公園キャンプ場',
     area: '湾岸',
     city: '大田区城南島',
@@ -119,6 +125,7 @@ export const CAMPSITES = [
   },
   {
     id: 'akigawa-riverteo',
+    scenery: '渓流',
     name: '秋川渓谷リバーティオ',
     area: '青梅・あきる野',
     city: 'あきる野市',
@@ -143,6 +150,7 @@ export const CAMPSITES = [
   },
   {
     id: 'yuyake-koyake',
+    scenery: '林',
     name: '夕やけ小やけふれあいの里',
     area: '高尾・八王子',
     city: '八王子市上恩方町',
@@ -167,6 +175,7 @@ export const CAMPSITES = [
   },
   {
     id: 'shimizuen',
+    scenery: '渓流',
     name: '清水苑キャンプ場',
     area: '檜原',
     city: '西多摩郡檜原村',
@@ -191,6 +200,7 @@ export const CAMPSITES = [
   },
   {
     id: 'kitaakigawa',
+    scenery: '渓流',
     name: '北秋川自然休暇村',
     area: '檜原',
     city: '西多摩郡檜原村',
@@ -215,6 +225,7 @@ export const CAMPSITES = [
   },
   {
     id: 'shinrinmura',
+    scenery: '渓流',
     name: 'コテージ森林村',
     area: '青梅・あきる野',
     city: 'あきる野市乙津',
@@ -239,6 +250,7 @@ export const CAMPSITES = [
   },
   {
     id: 'okuakigawa-village',
+    scenery: '林',
     name: '奥秋川ビレッジ',
     area: '檜原',
     city: '西多摩郡檜原村',
@@ -258,6 +270,7 @@ export const CAMPSITES = [
   },
   {
     id: 'america-camp-mura',
+    scenery: '林',
     name: 'アメリカキャンプ村',
     area: '奥多摩',
     city: '西多摩郡奥多摩町海沢',
@@ -282,6 +295,7 @@ export const CAMPSITES = [
   },
   {
     id: 'hyakkenchaya',
+    scenery: '渓流',
     name: '百軒茶屋キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町大丹波',
@@ -306,6 +320,7 @@ export const CAMPSITES = [
   },
   {
     id: 'nakachaya',
+    scenery: '渓流',
     name: '中茶屋キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町大丹波',
@@ -330,6 +345,7 @@ export const CAMPSITES = [
   },
   {
     id: 'seitoen',
+    scenery: '渓流',
     name: '清東園キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町大丹波',
@@ -354,6 +370,7 @@ export const CAMPSITES = [
   },
   {
     id: 'hatonosu-bungalow',
+    scenery: '渓流',
     name: '鳩の巣バンガロー',
     area: '奥多摩',
     city: '西多摩郡奥多摩町棚沢',
@@ -378,6 +395,7 @@ export const CAMPSITES = [
   },
   {
     id: 'sakai-keikoku',
+    scenery: '渓流',
     name: '境渓谷キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町境',
@@ -402,6 +420,7 @@ export const CAMPSITES = [
   },
   {
     id: 'yama-no-furusato-mura',
+    scenery: '湖',
     name: '山のふるさと村キャンプ場',
     area: '奥多摩',
     city: '西多摩郡奥多摩町川野',
@@ -426,6 +445,7 @@ export const CAMPSITES = [
   },
   {
     id: 'mitake-camp-adventure',
+    scenery: '渓流',
     name: 'MITAKECAMP ADVENTURE',
     area: '青梅・あきる野',
     city: '青梅市御岳',
@@ -450,6 +470,7 @@ export const CAMPSITES = [
   },
   {
     id: 'ochiai',
+    scenery: '渓流',
     name: '落合キャンプ場',
     area: '青梅・あきる野',
     city: 'あきる野市養沢',
@@ -474,6 +495,7 @@ export const CAMPSITES = [
   },
   {
     id: 'juuriki-land',
+    scenery: '渓流',
     name: '十里木ランド',
     area: '青梅・あきる野',
     city: 'あきる野市戸倉',
@@ -498,6 +520,7 @@ export const CAMPSITES = [
   },
   {
     id: 'fukasawakei',
+    scenery: '林',
     name: '深沢渓 自然人村',
     area: '青梅・あきる野',
     city: 'あきる野市深沢',
@@ -522,6 +545,7 @@ export const CAMPSITES = [
   },
   {
     id: 'nature-factory-machida',
+    scenery: '林',
     name: 'Nature Factory 東京町田',
     area: '多摩',
     city: '町田市相原町',
@@ -546,6 +570,7 @@ export const CAMPSITES = [
   },
   {
     id: 'toshiki',
+    scenery: '海',
     name: 'トウシキ野営場',
     area: '島しょ',
     city: '大島町差木地',
@@ -570,6 +595,7 @@ export const CAMPSITES = [
   },
   {
     id: 'umi-no-furusato-mura',
+    scenery: '海',
     name: '海のふるさと村',
     area: '島しょ',
     city: '大島町泉津',
@@ -594,6 +620,7 @@ export const CAMPSITES = [
   },
   {
     id: 'habushiura',
+    scenery: '海',
     name: '都立羽伏浦キャンプ場',
     area: '島しょ',
     city: '新島村',
@@ -618,6 +645,7 @@ export const CAMPSITES = [
   },
   {
     id: 'takou-wan',
+    scenery: '海',
     name: '都立多幸湾公園ファミリーキャンプ場',
     area: '島しょ',
     city: '神津島村',
@@ -629,7 +657,7 @@ export const CAMPSITES = [
     car: { available: false, distance_km: 0, minutes: 0, parking_fee: 0 },
     transit: {
       from: '新宿',
-      minutes: 250,
+      minutes: 255,
       legs: ['JR山手線 新宿→浜松町、竹芝客船ターミナルへ徒歩', '高速ジェット船 約3時間15分 神津島港', '車・バスで約15分'],
       last_arrival: '15:00',
     },
@@ -642,6 +670,7 @@ export const CAMPSITES = [
   },
   {
     id: 'daijinko',
+    scenery: '海',
     name: 'ジョイキャンプだいじんこ',
     area: '島しょ',
     city: '神津島村',
@@ -653,7 +682,7 @@ export const CAMPSITES = [
     car: { available: false, distance_km: 0, minutes: 0, parking_fee: 0 },
     transit: {
       from: '新宿',
-      minutes: 245,
+      minutes: 235,
       legs: ['JR山手線 新宿→浜松町、竹芝客船ターミナルへ徒歩', '高速ジェット船 約3時間15分 神津島港', '徒歩約10分'],
       last_arrival: '15:00',
     },
@@ -666,6 +695,7 @@ export const CAMPSITES = [
   },
   {
     id: 'sokodo',
+    scenery: '海',
     name: '底土野営場',
     area: '島しょ',
     city: '八丈町三根',
@@ -690,6 +720,7 @@ export const CAMPSITES = [
   },
   {
     id: 'okubohama',
+    scenery: '海',
     name: '大久保浜キャンプ場',
     area: '島しょ',
     city: '三宅村伊豆',

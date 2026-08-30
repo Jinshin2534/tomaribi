@@ -6,7 +6,7 @@
 import { travelMinutes, arrivalMargin } from './access.js';
 import { minPricePerPerson } from './filter.js';
 
-export const AXES = ['access', 'fire', 'facility', 'quiet', 'price', 'season'];
+export const AXES = ['access', 'fire', 'facility', 'quiet', 'price', 'season', 'scenery'];
 
 const AXIS_LABEL = {
   access: 'アクセス',
@@ -15,9 +15,10 @@ const AXIS_LABEL = {
   quiet: '静けさ',
   price: '価格',
   season: '季節との相性',
+  scenery: '景色',
 };
 
-const BASE_WEIGHTS = { access: 1.0, fire: 0.8, facility: 0.8, quiet: 0.7, price: 0.7, season: 0.5 };
+const BASE_WEIGHTS = { access: 1.0, fire: 0.8, facility: 0.8, quiet: 0.7, price: 0.7, season: 0.5, scenery: 0.15 };
 
 export function weightsFor(criteria) {
   const c = criteria ?? {};
@@ -35,6 +36,8 @@ export function weightsFor(criteria) {
   if (typeof c.budget === 'number') w.price = 1.2;
   if (c.tebura === true) w.facility = Math.max(w.facility, 1.2);
   if (typeof c.month === 'number') w.season = 0.8;
+  // 景色は指定されて初めて効く軸。指定が無いときは順位をほとんど動かさない。
+  if (c.scenery) w.scenery = 1.5;
 
   return w;
 }
@@ -100,6 +103,12 @@ function seasonRaw(site, c) {
   return 0.5 + (high - 0.5) * 0.2;
 }
 
+/** 景色の好み。指定が無ければ全員同じ（＝順位に影響しない）。 */
+function sceneryRaw(site, c) {
+  if (!c.scenery) return 0.5;
+  return site.scenery === c.scenery ? 1 : 0.15;
+}
+
 const RAW = {
   access: accessRaw,
   fire: (site) => fireRaw(site),
@@ -107,6 +116,7 @@ const RAW = {
   quiet: (site) => quietRaw(site),
   price: priceRaw,
   season: seasonRaw,
+  scenery: sceneryRaw,
 };
 
 export function scoreSite(site, criteria) {

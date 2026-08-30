@@ -31,6 +31,10 @@ export const TEMPLATES = {
     plus: () => 'この時期の気候と相性がいい',
     minus: () => 'この時期は暑さ寒さがこたえる標高',
   },
+  scenery: {
+    plus: (c) => (c.scenery ? `${c.scenery}のそばで泊まれる` : '景色がいい'),
+    minus: (c) => (c.scenery ? `${c.scenery}ではない` : '景色は平凡'),
+  },
 };
 
 /**
