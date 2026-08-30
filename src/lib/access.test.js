@@ -54,8 +54,8 @@ describe('accessBand', () => {
 });
 
 describe('arrivalMargin', () => {
-  it('9時発・所要105分なら 17:00 まで 5時間15分の余裕', () => {
-    expect(arrivalMargin(withTransit(105, '17:00'), { hasCar: false, departHour: 9 })).toBe(315);
+  it('9時発・所要105分なら 17:00 まで 6時間15分の余裕', () => {
+    expect(arrivalMargin(withTransit(105, '17:00'), { hasCar: false, departHour: 9 })).toBe(375);
   });
   it('遅い出発では余裕が負になる', () => {
     expect(arrivalMargin(withTransit(105, '16:00'), { hasCar: false, departHour: 15 })).toBe(-45);
