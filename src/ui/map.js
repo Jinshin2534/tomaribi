@@ -52,10 +52,14 @@ export async function initMap(el) {
   // ピンが画面の外に行ってしまう。ただし利用者が動かしたあとは奪わない。
   map.on('dragstart', () => { userMoved = true; });
   const resize = () => {
-    map.invalidateSize();
-    if (!userMoved && lastPoints.length > 0) map.fitBounds(lastPoints, FIT_OPTS);
+    // アニメーションを挟むと _size の更新がこの場で終わらず、直後の
+    // fitBounds が古いサイズで計算されて、ピンが画面の外に出る。
+    map.invalidateSize({ animate: false, pan: false });
+    requestAnimationFrame(() => {
+      if (!userMoved && lastPoints.length > 0) map.fitBounds(lastPoints, FIT_OPTS);
+    });
   };
-  for (const ms of [0, 150, 500, 1200]) setTimeout(resize, ms);
+  for (const ms of [0, 150, 500, 1200, 2500]) setTimeout(resize, ms);
   window.addEventListener('resize', resize);
   if (typeof ResizeObserver === 'function') new ResizeObserver(resize).observe(el);
 
@@ -69,6 +73,9 @@ export async function initMap(el) {
  */
 export function paintMap(ranked, osmSites, onPick) {
   if (!map || !layer) return 0;
+  // 描き直すたびに実寸を取り直す。コンテナの高さが後から決まる配置なので、
+  // 初期化時のサイズだけを信じるとタイルが一部しか貼られない。
+  map.invalidateSize();
   layer.clearLayers();
 
   const points = [];

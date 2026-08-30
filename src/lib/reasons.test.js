@@ -18,6 +18,24 @@ describe('テンプレの網羅', () => {
   });
 });
 
+describe('季節の理由文は月で言い分けを変える', () => {
+  const low = [contrib('season', 0.1)];
+  const high = [contrib('season', 0.95)];
+  it('夏の減点は「暑い」側を言う', () => {
+    expect(reasonsFor(low, { month: 8 }).minus[0]).toContain('暑く');
+  });
+  it('冬の減点は「冷える」側を言う', () => {
+    expect(reasonsFor(low, { month: 1 }).minus[0]).toContain('冷え込み');
+  });
+  it('夏の加点は「涼しい」側を言う', () => {
+    expect(reasonsFor(high, { month: 7 }).plus[0]).toContain('涼しい');
+  });
+  it('月が無くても文になる', () => {
+    expect(reasonsFor(low, {}).minus[0].length).toBeGreaterThan(0);
+    expect(reasonsFor(high, {}).plus[0].length).toBeGreaterThan(0);
+  });
+});
+
 describe('reasonsFor', () => {
   it('加点は最大3件に切る', () => {
     const cs = AXES.map((a) => contrib(a, 0.9));

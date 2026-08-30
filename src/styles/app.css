@@ -110,8 +110,8 @@ body {
 .card:hover { border-color: var(--ember-soft); }
 .card[data-rank="1"] { border-color: var(--ember); background: var(--panel-2); }
 
-.card-head { display: flex; align-items: baseline; gap: 10px; }
-.rank { font-size: 12px; color: var(--ink-dim); font-variant-numeric: tabular-nums; }
+.card-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.rank { font-size: 12px; color: var(--ink-dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .card[data-rank="1"] .rank { color: var(--ember); font-weight: 700; }
 .card h3 { margin: 0; font-size: 17px; font-weight: 600; }
 .card .where { color: var(--ink-dim); font-size: 12px; margin-left: auto; }
@@ -134,15 +134,42 @@ body {
 .reasons .minus::before { content: "−"; color: var(--warn); }
 .reasons .plus, .reasons .minus { display: flex; gap: 6px; }
 
-.card-foot { margin-top: 10px; display: flex; gap: 14px; font-size: 12px; color: var(--ink-dim); }
+.card-foot { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--ink-dim); }
+.card-foot span { white-space: nowrap; }
 .card-foot b { color: var(--ink); font-weight: 600; }
 
+/* 狭い画面：地図と一覧をタブで切り替える */
+.tabs { display: none; gap: 6px; padding: 10px 14px 0; }
+.tabs .chip { flex: 1; }
+
 @media (max-width: 900px) {
-  .main { grid-template-columns: 1fr; }
-  .map-pane { display: none; }
-  .controls { gap: 12px 16px; padding: 12px 14px; }
-  .list-pane { padding: 14px; }
+  /* 条件パネルだけで1画面を超えるので、狭い画面ではページ自体をスクロールさせる。
+     ここで overflow:hidden を残すと一覧に永遠にたどり着けない。 */
+  body { overflow: auto; }
+  #app { height: auto; min-height: 100vh; }
+
+  .tabs { display: flex; }
+  .main { display: block; overflow: visible; }
+  .map-pane { border-right: none; height: 62vh; min-height: 320px; }
+  .list-pane { overflow: visible; min-height: 0; padding: 14px; }
+  .main[data-view="list"] .map-pane { display: none; }
+  .main[data-view="map"] .list-pane { display: none; }
+
+  .controls { gap: 10px 14px; padding: 10px 14px; }
+  .ctl > label { font-size: 11px; }
+  .chip { padding: 4px 10px; font-size: 12px; }
+  .slider input { width: 120px; }
+  .masthead { padding: 14px 14px 10px; }
+  .masthead h1 { font-size: 19px; }
+
+  .detail-backdrop { position: fixed; }
   .detail { width: 100%; border-left: none; }
+
+  /* カードは1行に詰め込まず、素直に段を分ける */
+  .card h3 { flex: 1 1 auto; font-size: 16px; }
+  .card .where { flex: 1 0 100%; margin-left: 0; order: 3; }
+  .card .badges { order: 4; }
+  .reasons { font-size: 12.5px; }
 }
 
 /* ---- 詳細パネル ---- */

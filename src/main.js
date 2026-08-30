@@ -37,7 +37,11 @@ app.innerHTML = `
     <p>東京で泊まれる場所を、条件から探す</p>
   </header>
   <section class="controls" id="controls"></section>
-  <main class="main">
+  <nav class="tabs" id="tabs">
+    <button class="chip" type="button" data-view="list" aria-pressed="true">一覧</button>
+    <button class="chip" type="button" data-view="map" aria-pressed="false">地図</button>
+  </nav>
+  <main class="main" id="main" data-view="list">
     <div class="map-pane" id="map"></div>
     <div class="list-pane">
       <div class="toolbar">
@@ -57,6 +61,27 @@ const listRoot = document.getElementById('list');
 const overlay = document.getElementById('overlay');
 const noteEl = document.getElementById('toolbar-note');
 const compareBtn = document.getElementById('show-compare');
+const mainEl = document.getElementById('main');
+const tabsEl = document.getElementById('tabs');
+
+function setView(view) {
+  mainEl.dataset.view = view;
+  for (const b of tabsEl.querySelectorAll('[data-view]')) {
+    b.setAttribute('aria-pressed', String(b.dataset.view === view));
+  }
+  // 隠れているあいだ地図は実寸を測れない。出したところで測り直すが、
+  // 1回では Leaflet の内部状態が追いつかないので、描画後にもう一度叩く。
+  const remeasure = () => window.dispatchEvent(new Event('resize'));
+  remeasure();
+  requestAnimationFrame(remeasure);
+  setTimeout(remeasure, 250);
+  return view;
+}
+
+tabsEl.addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-view]');
+  if (btn) setView(btn.dataset.view);
+});
 const favBtn = document.getElementById('only-fav');
 let onlyFav = false;
 let compareOpen = false;
@@ -200,6 +225,7 @@ window.__app = {
   setCompare: (ids) => { state.compare = ids.slice(0, 2); render(); },
   openCompare: () => { compareOpen = true; state.openId = null; render(); },
   toggleOnlyFav: () => { onlyFav = !onlyFav; recompute(); render(); return onlyFav; },
+  setView,
   favorite: (id) => { state.favorites = toggleFav(state.favorites, id); saveFav(store, state.favorites); render(); return state.favorites; },
   pinCount: () => state.ranked.length + state.osm.length,
 };

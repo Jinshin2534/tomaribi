@@ -1,6 +1,9 @@
 // スコアの寄与を、そのまま人間の言葉にする。
 // 順位を説明できない提案は信用されないので、加点だけでなく減点も必ず見せる。
 
+const isSummer = (m) => typeof m === 'number' && m >= 6 && m <= 9;
+const isWinter = (m) => typeof m === 'number' && (m === 12 || m <= 2);
+
 export const PLUS_THRESHOLD = 0.62;
 export const MINUS_THRESHOLD = 0.32;
 const MAX_PLUS = 3;
@@ -28,8 +31,8 @@ export const TEMPLATES = {
     minus: () => '料金は高めの部類',
   },
   season: {
-    plus: () => 'この時期の気候と相性がいい',
-    minus: () => 'この時期は暑さ寒さがこたえる標高',
+    plus: (c) => (isSummer(c.month) ? '標高が高く、夏の夜が涼しい' : isWinter(c.month) ? '標高が低く、冬の冷え込みが穏やか' : 'この時期の気候と相性がいい'),
+    minus: (c) => (isSummer(c.month) ? '標高が低く、夏の夜は暑くなりやすい' : isWinter(c.month) ? '標高が高く、冬の夜の冷え込みが厳しい' : 'この時期の気候とは相性がよくない'),
   },
   scenery: {
     plus: (c) => (c.scenery ? `${c.scenery}のそばで泊まれる` : '景色がいい'),
